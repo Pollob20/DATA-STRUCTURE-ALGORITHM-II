@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+void linear(int n)
+{
+    int i;
+    for(i = 0; i < n; i++)
+    {
+        printf("*");
+    }
+}
+
+void quadratic(int n)
+{
+    int i, j;
+    for(i = 0; i < n; i++)
+    {
+        for(j = 0; j < n; j++)
+        {
+            printf("*");
+        }
+    }
+}
+
+void cubic(int n)
+{
+    int i, j, k;
+    for(i = 0; i < n; i++)
+    {
+        for(j = 0; j < n; j++)
+        {
+            for(k = 0; k < n; k++)
+            {
+                printf("*");
+            }
+        }
+    }
+}
+
+int main()
+{
+    int n = 5;
+
+    printf("Linear Growth O(n):\n");
+    linear(n);
+
+    printf("\n\nQuadratic Growth O(n^2):\n");
+    quadratic(n);
+
+    printf("\n\nCubic Growth O(n^3):\n");
+    cubic(n);
+
+    return 0;
+}
