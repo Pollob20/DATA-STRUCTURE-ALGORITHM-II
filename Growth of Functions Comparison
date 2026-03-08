@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <math.h>
+
+int main()
+{
+    int n;
+
+    printf("n\tlog(n)\tn\tnlog(n)\tn^2\t2^n\n");
+
+    for(n = 1; n <= 10; n++)
+    {
+        printf("%d\t%.2f\t%d\t%.2f\t%d\t%.0f\n",
+               n,
+               log(n),
+               n,
+               n * log(n),
+               n * n,
+               pow(2, n));
+    }
+
+    return 0;
+}
