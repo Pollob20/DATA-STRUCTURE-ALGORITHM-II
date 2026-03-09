@@ -1,0 +1,23 @@
+#include <stdio.h>
+
+int divideExample(int n) {
+
+    if(n <= 1)
+        return 1;
+
+    int left = divideExample(n/2);
+    int right = divideExample(n/2);
+
+    return left + right + n;
+}
+
+int main() {
+
+    int n = 8;
+
+    int result = divideExample(n);
+
+    printf("Result = %d", result);
+
+    return 0;
+}
