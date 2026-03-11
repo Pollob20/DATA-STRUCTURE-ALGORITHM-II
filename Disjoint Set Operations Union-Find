@@ -1,0 +1,49 @@
+#include <stdio.h>
+
+#define MAX 100
+
+int parent[MAX];
+int rank[MAX];
+
+void makeSet(int n){
+    for(int i=0;i<n;i++){
+        parent[i]=i;
+        rank[i]=0;
+    }
+}
+
+int find(int x){
+    if(parent[x]!=x)
+        parent[x]=find(parent[x]); 
+    return parent[x];
+}
+
+void unionSets(int x, int y){
+    int xRoot = find(x);
+    int yRoot = find(y);
+
+    if(xRoot==yRoot) return;
+
+    if(rank[xRoot]<rank[yRoot])
+        parent[xRoot]=yRoot;
+    else if(rank[xRoot]>rank[yRoot])
+        parent[yRoot]=xRoot;
+    else{
+        parent[yRoot]=xRoot;
+        rank[xRoot]++;
+    }
+}
+
+int main(){
+    int n=5;
+    makeSet(n);
+
+    unionSets(0,2);
+    unionSets(4,2);
+    unionSets(3,1);
+
+    printf("Check if 4 and 0 are in same set: %s\n", (find(4)==find(0))?"Yes":"No");
+    printf("Check if 1 and 0 are in same set: %s\n", (find(1)==find(0))?"Yes":"No");
+
+    return 0;
+}
