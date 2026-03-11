@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node{
+    int data;
+    struct Node* parent;
+    int rank;
+} Node;
+
+Node* makeSet(int data){
+    Node* n = (Node*)malloc(sizeof(Node));
+    n->data = data;
+    n->parent = n;
+    n->rank = 0;
+    return n;
+}
+
+Node* find(Node* n){
+    if(n->parent != n)
+        n->parent = find(n->parent); // Path Compression
+    return n->parent;
+}
+
+void unionSets(Node* x, Node* y){
+    Node* xRoot = find(x);
+    Node* yRoot = find(y);
+    if(xRoot==yRoot) return;
+
+    if(xRoot->rank < yRoot->rank)
+        xRoot->parent = yRoot;
+    else if(xRoot->rank > yRoot->rank)
+        yRoot->parent = xRoot;
+    else{
+        yRoot->parent = xRoot;
+        xRoot->rank++;
+    }
+}
+
+int main(){
+    Node* nodes[5];
+    for(int i=0;i<5;i++) nodes[i]=makeSet(i);
+
+    unionSets(nodes[0], nodes[2]);
+    unionSets(nodes[4], nodes[2]);
+    unionSets(nodes[3], nodes[1]);
+
+    printf("4 and 0 same set? %s\n", (find(nodes[4])==find(nodes[0]))?"Yes":"No");
+    printf("1 and 0 same set? %s\n", (find(nodes[1])==find(nodes[0]))?"Yes":"No");
+
+    return 0;
+}
