@@ -1,0 +1,85 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Edge{
+    int src, dest, weight;
+} Edge;
+
+typedef struct Graph{
+    int V, E;
+    Edge* edge;
+} Graph;
+
+Graph* createGraph(int V, int E){
+    Graph* g = (Graph*)malloc(sizeof(Graph));
+    g->V=V; g->E=E;
+    g->edge = (Edge*)malloc(E*sizeof(Edge));
+    return g;
+}
+
+// Disjoint Set functions
+int find(int parent[], int i){
+    if(parent[i]!=i)
+        parent[i]=find(parent,parent[i]);
+    return parent[i];
+}
+
+void unionSets(int parent[], int rank[], int x, int y){
+    int xroot=find(parent,x);
+    int yroot=find(parent,y);
+    if(rank[xroot]<rank[yroot])
+        parent[xroot]=yroot;
+    else if(rank[xroot]>rank[yroot])
+        parent[yroot]=xroot;
+    else{
+        parent[yroot]=xroot;
+        rank[xroot]++;
+    }
+}
+
+// Compare function for qsort
+int cmp(const void* a, const void* b){
+    Edge* e1=(Edge*)a;
+    Edge* e2=(Edge*)b;
+    return e1->weight - e2->weight;
+}
+
+void KruskalMST(Graph* g){
+    int V = g->V;
+    Edge result[V];
+    int e=0, i=0;
+
+    qsort(g->edge, g->E, sizeof(g->edge[0]), cmp);
+
+    int parent[V], rank[V];
+    for(int v=0;v<V;v++){ parent[v]=v; rank[v]=0; }
+
+    while(e<V-1 && i<g->E){
+        Edge next = g->edge[i++];
+        int x = find(parent,next.src);
+        int y = find(parent,next.dest);
+
+        if(x!=y){
+            result[e++] = next;
+            unionSets(parent, rank, x, y);
+        }
+    }
+
+    printf("Edges in MST:\n");
+    for(int i=0;i<e;i++)
+        printf("%d -- %d == %d\n", result[i].src, result[i].dest, result[i].weight);
+}
+
+int main(){
+    int V=4, E=5;
+    Graph* g = createGraph(V,E);
+
+    g->edge[0].src=0; g->edge[0].dest=1; g->edge[0].weight=10;
+    g->edge[1].src=0; g->edge[1].dest=2; g->edge[1].weight=6;
+    g->edge[2].src=0; g->edge[2].dest=3; g->edge[2].weight=5;
+    g->edge[3].src=1; g->edge[3].dest=3; g->edge[3].weight=15;
+    g->edge[4].src=2; g->edge[4].dest=3; g->edge[4].weight=4;
+
+    KruskalMST(g);
+    return 0;
+}
