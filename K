@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 20
+
+typedef struct {
+    int u, v, w;
+} Edge;
+
+int parent[MAX];
+
+int find(int i)
+{
+    while(parent[i])
+        i = parent[i];
+    return i;
+}
+
+void union_set(int i, int j)
+{
+    parent[j] = i;
+}
+
+int compare(const void *a, const void *b)
+{
+    return ((Edge*)a)->w - ((Edge*)b)->w;
+}
+
+int main()
+{
+    int n, e, i;
+    Edge edge[MAX];
+
+    printf("Enter number of vertices: ");
+    scanf("%d",&n);
+
+    printf("Enter number of edges: ");
+    scanf("%d",&e);
+
+    printf("Enter edges (u v weight):\n");
+
+    for(i = 0; i < e; i++)
+        scanf("%d %d %d",&edge[i].u,&edge
