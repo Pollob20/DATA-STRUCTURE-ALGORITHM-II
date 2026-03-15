@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <limits.h>
+#define V 4
+
+int distance[V];
+int visited[V] = {0};
+
+int getMinVertex() {
+    int min = INT_MAX, minIdx;
+    for(int i=0;i<V;i++)
+        if(!visited[i] && distance[i]<min)
+            min=distance[i], minIdx=i;
+    return minIdx;
+}
+
+void dijkstra(int graph[V][V], int src){
+    for(int i=0;i<V;i++) distance[i]=INT_MAX;
+    distance[src]=0;
+
+    for(int i=0;i<V;i++){
+        int u=getMinVertex();
+        visited[u]=1;
+        for(int v=0;v<V;v++)
+            if(!visited[v] && graph[u][v] && distance[u]!=INT_MAX &&
+               distance[u]+graph[u][v]<distance[v])
+                distance[v]=distance[u]+graph[u][v];
+    }
+
+    for(int i=0;i<V;i++) printf("Vertex %d Distance: %d\n",i,distance[i]);
+}
+
+int main(){
+    int graph[V][V]={{0,1,4,0},{1,0,4,2},{4,4,0,3},{0,2,3,0}};
+    dijkstra(graph,0);
+    return 0;
+}
