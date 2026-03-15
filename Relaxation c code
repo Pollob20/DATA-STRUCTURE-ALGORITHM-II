@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <limits.h>
+
+void relax(int dist[], int u, int v, int weight)
+{
+    if(dist[u] != INT_MAX && dist[u] + weight < dist[v])
+    {
+        dist[v] = dist[u] + weight;
+    }
+}
+
+int main()
+{
+    int dist[5] = {0, INT_MAX, INT_MAX, INT_MAX, INT_MAX};
+
+    relax(dist, 0, 1, 6);
+    relax(dist, 0, 2, 7);
+    relax(dist, 1, 3, 5);
+
+    for(int i = 0; i < 5; i++)
+        printf("Distance[%d] = %d\n", i, dist[i]);
+
+    return 0;
+}
