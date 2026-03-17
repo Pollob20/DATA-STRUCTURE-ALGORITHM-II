@@ -1,0 +1,108 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <limits.h>
+
+#define SIZE 13
+
+typedef struct {
+    int key;
+    int isOccupied;
+} Node;
+
+Node table[SIZE];
+
+
+int hash(int key) {
+    return key % SIZE;
+}
+
+// probe distance
+int probeDistance(int key, int index) {
+    int ideal = hash(key);
+    return (index + SIZE - ideal) % SIZE;
+}
+
+void insert(int key) {
+    int index = hash(key);
+    Node newNode = {key, 1};
+
+    while(1) {
+        if(!table[index].isOccupied) {
+            table[index] = newNode;
+            return;
+        }
+
+        int existingDist = probeDistance(table[index].key, index);
+        int newDist = probeDistance(newNode.key, index);
+
+        // Robin Hood statement true or false 
+        if(newDist > existingDist) {
+            Node temp = table[index];
+            table[index] = newNode;
+            newNode = temp;
+        }
+
+        index = (index + 1) % SIZE;
+    }
+}
+
+int search(int key) {
+    int index = hash(key);
+
+    while(table[index].isOccupied) {
+        if(table[index].key == key)
+            return index;
+
+        index = (index + 1) % SIZE;
+    }
+    return -1;
+}
+
+// backward delete code
+void deleteKey(int key) {
+    int index = search(key);
+    if(index == -1) return;
+
+    table[index].isOccupied = 0;
+
+    int next = (index + 1) % SIZE;
+
+    while(table[next].isOccupied) {
+        int ideal = hash(table[next].key);
+
+        if((next + SIZE - ideal) % SIZE > 0) {
+            table[index] = table[next];
+            table[next].isOccupied = 0;
+
+            index = next;
+        }
+        next = (next + 1) % SIZE;
+    }
+}
+
+void display() {
+    for(int i = 0; i < SIZE; i++) {
+        if(table[i].isOccupied)
+            printf("[%d] -> %d\n", i, table[i].key);
+        else
+            printf("[%d] -> NULL\n", i);
+    }
+}
+
+int main() {
+    insert(10);
+    insert(22);
+    insert(31);
+    insert(4);
+    insert(15);
+    insert(28);
+    insert(17);
+
+    display();
+
+    printf("\nAfter deleting 22:\n");
+    deleteKey(22);
+    display();
+
+    return 0;
+}
