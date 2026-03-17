@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <string.h>
+
+#define d 256
+#define q1 101
+#define q2 103
+
+void rabinKarp(char text[], char pattern[]) {
+    int n = strlen(text);
+    int m = strlen(pattern);
+
+    int h1 = 1, h2 = 1;
+    int pHash1 = 0, pHash2 = 0;
+    int tHash1 = 0, tHash2 = 0;
+
+    
+    for(int i = 0; i < m-1; i++) {
+        h1 = (h1 * d) % q1;
+        h2 = (h2 * d) % q2;
+    }
+
+    
+    for(int i = 0; i < m; i++) {
+        pHash1 = (d * pHash1 + pattern[i]) % q1;
+        pHash2 = (d * pHash2 + pattern[i]) % q2;
+
+        tHash1 = (d * tHash1 + text[i]) % q1;
+        tHash2 = (d * tHash2 + text[i]) % q2;
+    }
+
+    for(int i = 0; i <= n - m; i++) {
+
+        
+        if(pHash1 == tHash1 && pHash2 == tHash2) {
+            int j;
+            for(j = 0; j < m; j++) {
+                if(text[i + j] != pattern[j])
+                    break;
+            }
+            if(j == m)
+                printf("Pattern found at index %d\n", i);
+        }
+
+      
+        if(i < n - m) {
+            tHash1 = (d * (tHash1 - text[i] * h1) + text[i + m]) % q1;
+            tHash2 = (d * (tHash2 - text[i] * h2) + text[i + m]) % q2;
+
+            if(tHash1 < 0) tHash1 += q1;
+            if(tHash2 < 0) tHash2 += q2;
+        }
+    }
+}
+
+int main() {
+    char text[] = "GEEKSFORGEEKS";
+    char pattern[] = "GEEK";
+
+    rabinKarp(text, pattern);
+    return 0;
+}
