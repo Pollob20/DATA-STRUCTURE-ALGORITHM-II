@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+int main() {
+    int n = 5; // number of vertices
+    int path[] = {0, 1, 2, 4, 3}; 
+    int adjacency[5][5] = {
+        {0,1,0,0,1},
+        {1,0,1,0,0},
+        {0,1,0,1,0},
+        {0,0,1,0,1},
+        {1,0,0,1,0}
+    };
+    int valid = 1;
+
+    for(int i=0; i<n-1; i++){
+        if(adjacency[path[i]][path[i+1]] == 0){
+            valid = 0;
+            break;
+        }
+    }
+
+    if(valid)
+        printf("Hamiltonian path is valid\n");
+    else
+        printf("Hamiltonian path is invalid\n");
+
+    return 0;
+}
