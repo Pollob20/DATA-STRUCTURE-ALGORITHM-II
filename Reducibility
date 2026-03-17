@@ -1,0 +1,50 @@
+#include <stdio.h>
+
+
+int verifySubsetSum(int arr[], int n, int subset[], int target) {
+    int total = 0;
+    for(int i=0; i<n; i++)
+        if(subset[i])
+            total += arr[i];
+    return total == target;
+}
+
+
+int verifyKnapsack(int weights[], int values[], int n, int W, int selected[]) {
+    int total_weight = 0, total_value = 0;
+    for(int i=0; i<n; i++){
+        if(selected[i]){
+            total_weight += weights[i];
+            total_value += values[i];
+        }
+    }
+    if(total_weight <= W)
+        return total_value; 
+    else
+        return -1; 
+}
+
+int main() {
+    
+    int arr[] = {3, 34, 4, 12, 5, 2};
+    int subset[] = {1,0,1,0,0,0}; 
+    int target = 7;
+
+    if(verifySubsetSum(arr, 6, subset, target))
+        printf("Subset Sum: Valid solution\n");
+    else
+        printf("Subset Sum: Invalid solution\n");
+
+    // Convert to Knapsack
+    int weights[] = {3, 34, 4, 12, 5, 2};
+    int values[]  = {3, 34, 4, 12, 5, 2}; 
+    int W = target; 
+
+    int knapsack_value = verifyKnapsack(weights, values, 6, W, subset);
+    if(knapsack_value != -1)
+        printf("Knapsack: Valid solution, total value = %d\n", knapsack_value);
+    else
+        printf("Knapsack: Invalid solution\n");
+
+    return 0;
+}
