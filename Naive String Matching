@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include <string.h>
+
+void naiveSearch(char text[], char pattern[]) {
+    int n = strlen(text);
+    int m = strlen(pattern);
+    int comparisons = 0;
+    int found = 0;
+
+    for(int i = 0; i <= n - m; i++) {
+        int j;
+
+        for(j = 0; j < m; j++) {
+            comparisons++;
+
+            if(text[i + j] != pattern[j])
+                break;
+        }
+
+        if(j == m) {
+            printf("Pattern found at index: %d\n", i);
+            found = 1;
+        }
+    }
+
+    if(!found)
+        printf("Pattern not found\n");
+
+    printf("Total comparisons: %d\n", comparisons);
+}
+
+int main() {
+    char text[] = "ABABDABACDABABCABAB";
+    char pattern[] = "ABAB";
+
+    naiveSearch(text, pattern);
+
+    return 0;
+}
