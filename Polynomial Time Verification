@@ -1,0 +1,85 @@
+Definition
+Polynomial Time Verification means that if a solution (certificate) to a problem is given, it can be verified in polynomial time (such as O(n), O(n²), O(n³)).
+
+
+In simple terms:
+«Finding a solution may be difficult, but checking the correctness of a given solution is easy.»
+
+
+
+Key Idea
+A problem is polynomial-time verifiable if:
+         - A proposed solution is provided
+          - There exists an algorithm that can verify its correctness efficiently (in polynomial time)
+
+
+Example 1: 
+
+
+Password Checking
+Finding the correct password is difficult, but verifying it is easy.
+if(input_password == actual_password)
+    return "Correct"
+else
+    return "Incorrect"
+
+Time Complexity: O(n)
+
+
+
+
+
+
+
+
+Example 2: 
+                  Graph Path Verification
+
+       Problem: Is there a path from node A to node B?
+
+     - Finding the path may be hard
+     - But if someone gives a path, we can verify:
+     - Each edge exists
+     - It starts at A and ends at B
+
+      Time Complexity: Polynomial
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 3: Sudoku
+Solving a Sudoku puzzle is difficult, but verifying a completed grid is easy by checking:
+
+- Rows
+- Columns
+- Sub-grids
+
+
+
+
+
+Relation with NP Class
+A problem belongs to NP (Nondeterministic Polynomial Time) if:
+- Its solution can be verified in polynomial time
+
+
+Importance
+- Helps classify computational problems
+- Forms the basis of complexity classes like P, NP, NP-complete
+- Widely used in algorithms and theoretical computer science
+
+
+
+Summary
+- Solution finding: Hard
+- Solution verification: Easy (Polynomial Time)
+- Core concept in NP problems
