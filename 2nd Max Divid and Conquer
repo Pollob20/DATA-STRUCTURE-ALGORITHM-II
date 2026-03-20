@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <limits.h>
+
+int findSecondMax(int arr[], int n) {
+    if (n < 2) return -1;
+
+    int max = INT_MIN, secondMax = INT_MIN;
+
+    for (int i = 0; i < n; i++) {
+        if (arr[i] > max) {
+            secondMax = max;
+            max = arr[i];
+        } else if (arr[i] > secondMax && arr[i] != max) {
+            secondMax = arr[i];
+        }
+    }
+
+    return secondMax;
+}
+
+int main() {
+    int arr[] = {12, 5, 8, 20, 3, 15, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    int result = findSecondMax(arr, n);
+
+    if (result == INT_MIN)
+        printf("No second maximum\n");
+    else
+        printf("Second Maximum = %d\n", result);
+
+    return 0;
+}
