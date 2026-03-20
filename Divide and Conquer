@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+
+struct Pair {
+    int min;
+    int max;
+};
+
+struct Pair getMinMax(int arr[], int low, int high) {
+    struct Pair result, left, right;
+    int mid;
+
+    
+    if (low == high) {
+        result.min = arr[low];
+        result.max = arr[low];
+        return result;
+    }
+
+    // Case 2: Two elements
+    if (high == low + 1) {
+        if (arr[low] < arr[high]) {
+            result.min = arr[low];
+            result.max = arr[high];
+        } else {
+            result.min = arr[high];
+            result.max = arr[low];
+        }
+        return result;
+    }
+
+    
+    mid = (low + high) / 2;
+
+  
+    left = getMinMax(arr, low, mid);
+    right = getMinMax(arr, mid + 1, high);
+
+    
+    result.min = (left.min < right.min) ? left.min : right.min;
+    result.max = (left.max > right.max) ? left.max : right.max;
+
+    return result;
+}
+
+int main() {
+    int arr[] = {12, 5, 8, 20, 3, 15, 7};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    struct Pair ans = getMinMax(arr, 0, n - 1);
+
+    printf("Minimum = %d\n", ans.min);
+    printf("Maximum = %d\n", ans.max);
+
+    return 0;
+}
